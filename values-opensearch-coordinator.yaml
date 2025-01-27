@@ -195,8 +195,8 @@ opensearchJavaOpts: "-Xmx512M -Xms512M"
 
 resources:
   requests:
-    cpu: "100m"
-    memory: "2Gi"
+    cpu: "200m"
+    memory: "4Gi"
 
 initResources: {}
 #  limits:
@@ -263,7 +263,7 @@ persistence:
   # storageClass: "-"
   accessModes:
   - ReadWriteOnce
-  size: 10Gi
+  size: 20Gi
   annotations: {}
 
 extraVolumes: []
