@@ -22,7 +22,7 @@ roles:
 replicas: 3
 
 # if not set, falls back to parsing .Values.imageTag, then .Chart.appVersion.
-majorVersion: "2.19.1"
+majorVersion: "2.16.0"
 
 global:
   # Set if you want to change the default docker registry, e.g. a private one.
@@ -89,7 +89,7 @@ config:
         cache:
           ttl_minutes: '60'
         
-        allow_unsafe_democertificates: false
+        allow_unsafe_democertificates: true
         allow_default_init_securityindex: true
         audit.type: internal_opensearch
         enable_snapshot_restore_privilege: true
@@ -179,7 +179,7 @@ hostAliases: []
 image:
   repository: "opensearchproject/opensearch"
   # override image tag, which is .Chart.AppVersion by default
-  tag: "2.19.1"
+  tag: ""
   pullPolicy: "IfNotPresent"
 
 podAnnotations: {}
