@@ -19,7 +19,7 @@ roles:
 #- search
 #- ml
 
-replicas: 2
+replicas: 0
 
 # if not set, falls back to parsing .Values.imageTag, then .Chart.appVersion.
 majorVersion: "2.16.0"
@@ -179,7 +179,7 @@ hostAliases: []
 image:
   repository: "opensearchproject/opensearch"
   # override image tag, which is .Chart.AppVersion by default
-  tag: "2.16.0"
+  tag: "2.19.1"
   pullPolicy: "IfNotPresent"
 
 podAnnotations: {}
@@ -191,20 +191,28 @@ openSearchAnnotations: {}
 # additionals labels
 labels: {}
 
-opensearchJavaOpts: "-Xmx512M -Xms512M"
+opensearchJavaOpts: "-Xmx2g -Xms2g"
 
 resources:
   requests:
-    cpu: "200m"
+    cpu: "400m"
     memory: "4Gi"
+    ephemeral-storage: "1Gi"
 
-initResources: {}
-#  limits:
-#     cpu: "25m"
-#     memory: "128Mi"
-#  requests:
-#     cpu: "25m"
-#     memory: "128Mi"
+  limits:
+    cpu: "800m"
+    memory: "8Gi"
+    ephemeral-storage: "2Gi"
+
+initResources: 
+  requests:
+     cpu: "25m"
+     memory: "128Mi"
+     ephemeral-storage: "500Mi"
+  limits:
+     cpu: "50m"
+     memory: "256Mi"
+     ephemeral-storage: "1000Mi"
 
 sidecarResources: {}
 #   limits:
@@ -227,7 +235,7 @@ podSecurityPolicy:
   create: true
   name: ""
   spec:
-    privileged: true
+    privileged: false
     fsGroup:
       rule: RunAsAny
     runAsUser:
@@ -241,6 +249,7 @@ podSecurityPolicy:
     - configMap
     - persistentVolumeClaim
     - emptyDir
+
 
 persistence:
   enabled: true

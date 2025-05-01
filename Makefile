@@ -10,7 +10,7 @@ opensearch: nodes dashboard
 nodes:
 	helm template opensearch opensearch/opensearch --version=${OPENSEARCH_VERSION} --values=values-opensearch-master.yaml > helm-opensearch-master.yaml
 	helm template opensearch opensearch/opensearch --version=${OPENSEARCH_VERSION} --values=values-opensearch-worker.yaml > helm-opensearch-worker.yaml
-	helm template opensearch opensearch/opensearch --version=${OPENSEARCH_VERSION} --values=values-opensearch-coordinator.yaml > helm-opensearch-coordinator.yaml
+	#helm template opensearch opensearch/opensearch --version=${OPENSEARCH_VERSION} --values=values-opensearch-coordinator.yaml > helm-opensearch-coordinator.yaml
 
 
 dashboard:
