@@ -22,7 +22,7 @@ roles:
 replicas: 3
 
 # if not set, falls back to parsing .Values.imageTag, then .Chart.appVersion.
-majorVersion: "2.16.0"
+majorVersion: "2.19.1"
 
 global:
   # Set if you want to change the default docker registry, e.g. a private one.
@@ -179,7 +179,7 @@ hostAliases: []
 image:
   repository: "opensearchproject/opensearch"
   # override image tag, which is .Chart.AppVersion by default
-  tag: "2.16.0"
+  tag: "2.19.1"
   pullPolicy: "IfNotPresent"
 
 podAnnotations: {}
@@ -191,20 +191,28 @@ openSearchAnnotations: {}
 # additionals labels
 labels: {}
 
-opensearchJavaOpts: "-Xmx512M -Xms512M"
+opensearchJavaOpts: "-Xmx4g -Xms4g"
 
 resources:
   requests:
-    cpu: "100m"
+    cpu: "1000m"
     memory: "8Gi"
+    ephemeral-storage: "25Gi"
+  limits:
+    cpu: "2000m"
+    memory: "16Gi"
+    ephemeral-storage: "50Gi"
 
-initResources: {}
-#  limits:
-#     cpu: "25m"
-#     memory: "128Mi"
-#  requests:
-#     cpu: "25m"
-#     memory: "128Mi"
+initResources: 
+  requests:
+     cpu: "25m"
+     memory: "128Mi"
+     ephemeral-storage: "500Mi"
+  limits:
+     cpu: "50m"
+     memory: "256Mi"
+     ephemeral-storage: "1000Mi"
+
 
 sidecarResources: {}
 #   limits:
@@ -227,7 +235,7 @@ podSecurityPolicy:
   create: true
   name: ""
   spec:
-    privileged: true
+    privileged: false
     fsGroup:
       rule: RunAsAny
     runAsUser:
@@ -241,6 +249,7 @@ podSecurityPolicy:
     - configMap
     - persistentVolumeClaim
     - emptyDir
+
 
 persistence:
   enabled: true

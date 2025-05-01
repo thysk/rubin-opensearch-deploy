@@ -1,5 +1,5 @@
-OPENSEARCH_VERSION:= 2.21.0
-OPENSEARCH_DASHBOARD_VERSION:= 2.19.1
+OPENSEARCH_VERSION:= 2.33.0
+OPENSEARCH_DASHBOARD_VERSION:= 2.29.0
 
 helm:
 	helm repo add opensearch https://opensearch-project.github.io/helm-charts/
@@ -10,7 +10,7 @@ opensearch: nodes dashboard
 nodes:
 	helm template opensearch opensearch/opensearch --version=${OPENSEARCH_VERSION} --values=values-opensearch-master.yaml > helm-opensearch-master.yaml
 	helm template opensearch opensearch/opensearch --version=${OPENSEARCH_VERSION} --values=values-opensearch-worker.yaml > helm-opensearch-worker.yaml
-	helm template opensearch opensearch/opensearch --version=${OPENSEARCH_VERSION} --values=values-opensearch-coordinator.yaml > helm-opensearch-coordinator.yaml
+	#helm template opensearch opensearch/opensearch --version=${OPENSEARCH_VERSION} --values=values-opensearch-coordinator.yaml > helm-opensearch-coordinator.yaml
 
 
 dashboard:
@@ -22,7 +22,7 @@ run-dump:
 dump:  get-secrets opensearch dashboard run-dump
 
 run-apply:  
-	kubectl apply -k .
+	kubectl apply --overwrite=true --force=true -k .
 
 apply: helm get-secrets opensearch run-apply clean-secrets
 
