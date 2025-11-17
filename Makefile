@@ -24,12 +24,12 @@ dump:  get-secrets opensearch dashboard run-dump
 run-apply:  
 	kubectl apply -k .
 
-apply: helm get-secrets opensearch run-apply clean-secrets
+apply: helm get-secrets opensearch run-apply
 
 run-destroy:
 	kubectl delete -k .
 
-destroy: get-secrets opensearch dashboard run-destroy clean-secrets
+destroy: get-secrets opensearch dashboard run-destroy
 
 get-secrets:
 	mkdir -p opensearch/etc/.secrets
@@ -50,6 +50,9 @@ get-config:
 
 put-config:
 	vault kv put secret/rubin/usdf-opensearch/config internal_users=@opensearch/etc/config/internal_users.yml roles=@opensearch/etc/config/roles.yml allowlist=@opensearch/etc/config/allowlist.yml nodes_dn=@opensearch/etc/config/nodes_dn.yml tenants=@opensearch/etc/config/tenants.yml
+
+put-secrets:
+	vault kv put secret/rubin/usdf-opensearch/opensearch hostcert=@opensearch/etc/.secrets/hostcert.pem hostkey=@opensearch/etc/.secrets/hostkey.pem usdf-cacert=@opensearch/etc/.secrets/root-ca.pem password=@opensearch/etc/.secrets/password admin-user=@opensearch/etc/.secrets/username cookie=@opensearch/etc/.secrets/cookie
 
 clean-config:
 	rm -rf opensearch/etc/config
